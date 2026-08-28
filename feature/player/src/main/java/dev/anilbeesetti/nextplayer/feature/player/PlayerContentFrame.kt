@@ -37,6 +37,9 @@ fun PlayerContentFrame(
     seekGestureState: SeekGestureState,
     videoZoomAndContentScaleState: VideoZoomAndContentScaleState,
     volumeAndBrightnessGestureState: VolumeAndBrightnessGestureState,
+    enableSwipeToChangeVideo: Boolean,
+    onPreviousVideo: () -> Unit,
+    onNextVideo: () -> Unit,
     subtitleConfiguration: SubtitleConfiguration,
 ) {
     val presentationState = rememberPresentationState(player)
@@ -78,6 +81,9 @@ fun PlayerContentFrame(
         seekGestureState = seekGestureState,
         videoZoomAndContentScaleState = videoZoomAndContentScaleState,
         volumeAndBrightnessGestureState = volumeAndBrightnessGestureState,
+        enableSwipeToChangeVideo = enableSwipeToChangeVideo,
+        onPreviousVideo = onPreviousVideo,
+        onNextVideo = onNextVideo,
     )
 
     SubtitleView(
