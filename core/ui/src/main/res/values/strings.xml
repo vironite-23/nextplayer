@@ -50,6 +50,8 @@
     <string name="resume_description">Select whether to resume played videos from the point where you stopped</string>
     <string name="seek_gesture">Seek gesture</string>
     <string name="seek_gesture_description">Swipe horizontally to seek forwards or backwards</string>
+    <string name="swipe_to_change_video">Swipe to change video</string>
+    <string name="swipe_to_change_video_description">Swipe left or right to play the next or previous video. Enabling this disables the seek gesture.</string>
     <string name="select_audio_track">Select audio track</string>
     <string name="select_subtitle_track">Select subtitle track</string>
     <string name="settings">Settings</string>
@@ -98,6 +100,8 @@
     <string name="scanning_storage">Scanning storage…</string>
     <string name="manage_folders">Manage folders</string>
     <string name="manage_folders_desc">Select folders to be excluded in the media library</string>
+    <string name="show_hidden_media">Show hidden files and folders</string>
+    <string name="show_hidden_media_desc">Show media whose file or parent folder starts with . or is inside a folder containing .nomedia</string>
     <string name="video">Video</string>
     <string name="videos">Videos</string>
     <string name="screen_rotation">Screen Rotation</string>

@@ -43,6 +43,7 @@ class GesturePreferencesViewModel @Inject constructor(
             GesturePreferencesUiEvent.ToggleEnableBrightnessSwipeGesture -> toggleEnableBrightnessSwipeGesture()
             GesturePreferencesUiEvent.ToggleEnableVolumeSwipeGesture -> toggleEnableVolumeSwipeGesture()
             GesturePreferencesUiEvent.ToggleUseSeekControls -> toggleUseSeekControls()
+            GesturePreferencesUiEvent.ToggleSwipeToChangeVideo -> toggleSwipeToChangeVideo()
             GesturePreferencesUiEvent.ToggleUseZoomControls -> toggleUseZoomControls()
             GesturePreferencesUiEvent.ToggleEnablePanGesture -> toggleEnablePanGesture()
             is GesturePreferencesUiEvent.UpdateLongPressControlsSpeed -> updateLongPressControlsSpeed(event.value)
@@ -108,7 +109,22 @@ class GesturePreferencesViewModel @Inject constructor(
     private fun toggleUseSeekControls() {
         viewModelScope.launch {
             preferencesRepository.updatePlayerPreferences {
-                it.copy(useSeekControls = !it.useSeekControls)
+                it.copy(
+                    useSeekControls = !it.useSeekControls,
+                    swipeToChangeVideo = if (!it.useSeekControls) false else it.swipeToChangeVideo,
+                )
+            }
+        }
+    }
+
+    private fun toggleSwipeToChangeVideo() {
+        viewModelScope.launch {
+            preferencesRepository.updatePlayerPreferences {
+                val enabled = !it.swipeToChangeVideo
+                it.copy(
+                    swipeToChangeVideo = enabled,
+                    useSeekControls = if (enabled) false else it.useSeekControls,
+                )
             }
         }
     }
@@ -187,6 +203,7 @@ sealed interface GesturePreferencesUiEvent {
     data object ToggleEnableBrightnessSwipeGesture : GesturePreferencesUiEvent
     data object ToggleEnableVolumeSwipeGesture : GesturePreferencesUiEvent
     data object ToggleUseSeekControls : GesturePreferencesUiEvent
+    data object ToggleSwipeToChangeVideo : GesturePreferencesUiEvent
     data object ToggleUseZoomControls : GesturePreferencesUiEvent
     data object ToggleEnablePanGesture : GesturePreferencesUiEvent
     data class UpdateLongPressControlsSpeed(val value: Float) : GesturePreferencesUiEvent

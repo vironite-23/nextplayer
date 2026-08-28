@@ -2,6 +2,7 @@ package dev.anilbeesetti.nextplayer.core.domain
 
 import dev.anilbeesetti.nextplayer.core.common.Dispatcher
 import dev.anilbeesetti.nextplayer.core.common.NextDispatchers
+import dev.anilbeesetti.nextplayer.core.common.extensions.isHiddenMedia
 import dev.anilbeesetti.nextplayer.core.data.repository.MediaRepository
 import dev.anilbeesetti.nextplayer.core.data.repository.PreferencesRepository
 import dev.anilbeesetti.nextplayer.core.model.Folder
@@ -24,8 +25,9 @@ class GetSortedFoldersUseCase @Inject constructor(
             preferencesRepository.applicationPreferences,
         ) { folders, preferences ->
 
-            val nonExcludedDirectories = folders.filter {
-                it.path !in preferences.excludeFolders
+            val nonExcludedDirectories = folders.filter { folder ->
+                folder.path !in preferences.excludeFolders &&
+                    (preferences.showHiddenMedia || !java.io.File(folder.path).isHiddenMedia())
             }
 
             val sort = Sort(by = preferences.sortBy, order = preferences.sortOrder)

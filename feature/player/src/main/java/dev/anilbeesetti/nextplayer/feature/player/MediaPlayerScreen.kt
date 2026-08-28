@@ -277,6 +277,9 @@ fun MediaPlayerScreen(
                     seekGestureState = seekGestureState,
                     videoZoomAndContentScaleState = videoZoomAndContentScaleState,
                     volumeAndBrightnessGestureState = volumeAndBrightnessGestureState,
+                    enableSwipeToChangeVideo = playerPreferences.swipeToChangeVideo,
+                    onPreviousVideo = player::seekToPrevious,
+                    onNextVideo = player::seekToNext,
                     subtitleConfiguration = SubtitleConfiguration(
                         useSystemCaptionStyle = playerPreferences.useSystemCaptionStyle,
                         showBackground = playerPreferences.subtitleBackground,

@@ -13,6 +13,7 @@ data class ApplicationPreferences(
     val excludeFolders: List<String> = emptyList(),
     val mediaViewMode: MediaViewMode = MediaViewMode.FOLDERS,
     val mediaLayoutMode: MediaLayoutMode = MediaLayoutMode.LIST,
+    val showHiddenMedia: Boolean = false,
 
     // Fields
     val showDurationField: Boolean = true,

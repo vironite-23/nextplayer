@@ -108,6 +108,13 @@ private fun GesturePreferencesContent(
                     onClick = { onEvent(GesturePreferencesUiEvent.ToggleUseSeekControls) },
                     isFirstItem = true
                 )
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.swipe_to_change_video),
+                    description = stringResource(id = R.string.swipe_to_change_video_description),
+                    icon = NextIcons.SwipeHorizontal,
+                    isChecked = uiState.preferences.swipeToChangeVideo,
+                    onClick = { onEvent(GesturePreferencesUiEvent.ToggleSwipeToChangeVideo) },
+                )
                 PreferenceSlider(
                     title = stringResource(R.string.seek_gesture_sensitivity),
                     description = uiState.preferences.seekSensitivity.toString(decimalPlaces = 2),

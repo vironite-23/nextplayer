@@ -2,6 +2,7 @@ package dev.anilbeesetti.nextplayer.core.domain
 
 import dev.anilbeesetti.nextplayer.core.common.Dispatcher
 import dev.anilbeesetti.nextplayer.core.common.NextDispatchers
+import dev.anilbeesetti.nextplayer.core.common.extensions.isHiddenMedia
 import dev.anilbeesetti.nextplayer.core.data.repository.MediaRepository
 import dev.anilbeesetti.nextplayer.core.data.repository.PreferencesRepository
 import dev.anilbeesetti.nextplayer.core.model.Sort
@@ -24,8 +25,9 @@ class GetSortedVideosUseCase @Inject constructor(
             preferencesRepository.applicationPreferences,
         ) { videoItems, preferences ->
 
-            val nonExcludedVideos = videoItems.filterNot {
-                it.parentPath in preferences.excludeFolders
+            val nonExcludedVideos = videoItems.filter { video ->
+                video.parentPath !in preferences.excludeFolders &&
+                    (preferences.showHiddenMedia || !java.io.File(video.path).isHiddenMedia())
             }
 
             val sort = Sort(by = preferences.sortBy, order = preferences.sortOrder)

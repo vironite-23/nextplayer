@@ -23,6 +23,7 @@ data class PlayerPreferences(
     val enableVolumeSwipeGesture: Boolean = true,
     val enableBrightnessSwipeGesture: Boolean = true,
     val useSeekControls: Boolean = true,
+    val swipeToChangeVideo: Boolean = false,
     val useZoomControls: Boolean = true,
     val enablePanGesture: Boolean = false,
     val doubleTapGesture: DoubleTapGesture = DoubleTapGesture.BOTH,

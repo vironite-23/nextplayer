@@ -149,13 +149,22 @@ private fun MediaLibraryPreferencesContent(
             Column(
                 verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap),
             ) {
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.show_hidden_media),
+                    description = stringResource(id = R.string.show_hidden_media_desc),
+                    icon = NextIcons.HideSource,
+                    isChecked = preferences.showHiddenMedia,
+                    onClick = { onEvent(MediaLibraryPreferencesUiEvent.ToggleShowHiddenMedia) },
+                    isFirstItem = true,
+                    isLastItem = false,
+                )
                 ClickablePreferenceItem(
                     modifier = restorableModifier(key = "manage_folders", isFirst = false),
                     title = stringResource(id = R.string.manage_folders),
                     description = stringResource(id = R.string.manage_folders_desc),
                     icon = NextIcons.FolderOff,
                     onClick = onFolderSettingClick,
-                    isFirstItem = true,
+                    isFirstItem = false,
                     isLastItem = true,
                 )
             }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.dp
 import dev.anilbeesetti.nextplayer.feature.player.extensions.detectCustomHorizontalDragGestures
 import dev.anilbeesetti.nextplayer.feature.player.extensions.detectCustomTransformGestures
 import dev.anilbeesetti.nextplayer.feature.player.extensions.detectCustomVerticalDragGestures
@@ -26,6 +27,9 @@ fun PlayerGestures(
     seekGestureState: SeekGestureState,
     videoZoomAndContentScaleState: VideoZoomAndContentScaleState,
     volumeAndBrightnessGestureState: VolumeAndBrightnessGestureState,
+    enableSwipeToChangeVideo: Boolean,
+    onPreviousVideo: () -> Unit,
+    onNextVideo: () -> Unit,
 ) {
     BoxWithConstraints {
         Box(
@@ -56,16 +60,41 @@ fun PlayerGestures(
                 .pointerInput(
                     controlsVisibilityState.controlsLocked,
                     pictureInPictureState.isInPictureInPictureMode,
+                    enableSwipeToChangeVideo,
                 ) {
                     if (controlsVisibilityState.controlsLocked) return@pointerInput
                     if (pictureInPictureState.isInPictureInPictureMode) return@pointerInput
 
-                    detectCustomHorizontalDragGestures(
-                        onDragStart = seekGestureState::onDragStart,
-                        onHorizontalDrag = seekGestureState::onDrag,
-                        onDragCancel = seekGestureState::onDragEnd,
-                        onDragEnd = seekGestureState::onDragEnd,
-                    )
+                    if (enableSwipeToChangeVideo) {
+                        val swipeThreshold = 80.dp.toPx()
+                        var dragStartX = 0f
+                        var dragDistance = 0f
+
+                        detectCustomHorizontalDragGestures(
+                            onDragStart = {
+                                dragStartX = it.x
+                                dragDistance = 0f
+                            },
+                            onHorizontalDrag = { change, _ ->
+                                dragDistance = change.position.x - dragStartX
+                            },
+                            onDragCancel = { dragDistance = 0f },
+                            onDragEnd = {
+                                when {
+                                    dragDistance <= -swipeThreshold -> onNextVideo()
+                                    dragDistance >= swipeThreshold -> onPreviousVideo()
+                                }
+                                dragDistance = 0f
+                            },
+                        )
+                    } else {
+                        detectCustomHorizontalDragGestures(
+                            onDragStart = seekGestureState::onDragStart,
+                            onHorizontalDrag = seekGestureState::onDrag,
+                            onDragCancel = seekGestureState::onDragEnd,
+                            onDragEnd = seekGestureState::onDragEnd,
+                        )
+                    }
                 }
                 .pointerInput(
                     controlsVisibilityState.controlsLocked,
